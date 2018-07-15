@@ -36,4 +36,5 @@ au FileType rust nmap gs <Plug>(rust-def-split)
 au FileType rust nmap gx <Plug>(rust-def-vertical)
 au FileType rust nmap <leader>gd <Plug>(rust-doc)
 nnoremap <F3> :set hlsearch!<CR>
+nnoremap <F4> :set relativenumber! number!<CR>
 set nohlsearch
