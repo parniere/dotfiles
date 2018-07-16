@@ -10,9 +10,6 @@ Plug 'rust-lang/rust.vim'
 Plug 'racer-rust/vim-racer'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'davidhalter/jedi-vim'
-Plug 'chriskempson/base16-vim'
-Plug 'jeffkreeftmeijer/vim-numbertoggle'
 call plug#end()
 
 "airline
@@ -28,13 +25,26 @@ au FileType rust nmap gs <Plug>(rust-def-split)
 au FileType rust nmap gx <Plug>(rust-def-vertical)
 au FileType rust nmap <leader>gd <Plug>(rust-doc)
 
-set autoread
+"general
 syntax on
+filetype indent on
+set smartindent
+set smarttab
+set autoindent
+set wrap
+set showmatch
+set ignorecase
+set encoding=utf8
+set nobackup
+set nowb
+set noswapfile
+set pastetoggle=<F2>
+set autoread
 colorscheme desert
 set tabstop=4
 set shiftwidth=4
 set bg=dark
-:set number relativenumber
-nnoremap <F2> :set hlsearch!<CR>
-nnoremap <F4> :set relativenumber! number!<CR>
+set number relativenumber
 set nohlsearch
+nnoremap <F3> :set hlsearch!<CR>
+nnoremap <F4> :set relativenumber! number!<CR>
