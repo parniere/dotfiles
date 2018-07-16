@@ -6,6 +6,7 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 
 call plug#begin('~/.vim/plugged')
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'rust-lang/rust.vim'
 Plug 'racer-rust/vim-racer'
 Plug 'vim-airline/vim-airline'
@@ -28,6 +29,7 @@ au FileType rust nmap <leader>gd <Plug>(rust-doc)
 "general
 syntax on
 filetype indent on
+set nocompatible
 set smartindent
 set smarttab
 set autoindent
