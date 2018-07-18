@@ -45,6 +45,7 @@ set autoread
 colorscheme desert
 set tabstop=4
 set shiftwidth=4
+set expandtab
 set bg=dark
 set number relativenumber
 set nohlsearch
