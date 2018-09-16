@@ -11,13 +11,14 @@ Plug 'rust-lang/rust.vim'
 Plug 'racer-rust/vim-racer'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'vim-syntastic/syntastic'
 call plug#end()
 
 "airline
 let g:airline_powerline_fonts = 1
 let g:airline_theme='distinguished'
 
-"vim racer
+"vim racer Cx Co to autocomplete
 set hidden
 let g:racer_cmd = "~/.cargo/bin/racer"
 let g:racer_experimental_completer = 1
@@ -25,6 +26,32 @@ au FileType rust nmap gd <Plug>(rust-def)
 au FileType rust nmap gs <Plug>(rust-def-split)
 au FileType rust nmap gx <Plug>(rust-def-vertical)
 au FileType rust nmap <leader>gd <Plug>(rust-doc)
+
+"syntastic
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+"Zoom
+" Zoom / Restore window.
+function! s:ZoomToggle() abort
+    if exists('t:zoomed') && t:zoomed
+        execute t:zoom_winrestcmd
+        let t:zoomed = 0
+    else
+        let t:zoom_winrestcmd = winrestcmd()
+        resize
+        vertical resize
+        let t:zoomed = 1
+    endif
+endfunction
+command! ZoomToggle call s:ZoomToggle()
+nnoremap <silent> <C-A> :ZoomToggle<CR>
 
 "general
 syntax on
@@ -42,7 +69,6 @@ set nowb
 set noswapfile
 set pastetoggle=<F2>
 set autoread
-colorscheme desert
 set tabstop=4
 set shiftwidth=4
 set expandtab
