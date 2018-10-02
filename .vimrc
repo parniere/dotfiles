@@ -75,5 +75,9 @@ set expandtab
 set bg=dark
 set number relativenumber
 set nohlsearch
+
+"set cursorline
+"hi CursorLine cterm=bold ctermbg=233
+
 nnoremap <F3> :set hlsearch!<CR>
 nnoremap <F4> :set relativenumber! number!<CR>
