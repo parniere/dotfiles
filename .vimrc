@@ -12,6 +12,7 @@ Plug 'racer-rust/vim-racer'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-syntastic/syntastic'
+Plug 'python-mode/python-mode', { 'branch': 'develop' }
 call plug#end()
 
 "airline
@@ -52,6 +53,10 @@ function! s:ZoomToggle() abort
 endfunction
 command! ZoomToggle call s:ZoomToggle()
 nnoremap <silent> <C-A> :ZoomToggle<CR>
+
+"pymode
+let g:pymode_python = 'python3'
+let g:pymode=1
 
 "general
 syntax on
