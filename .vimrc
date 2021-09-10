@@ -6,14 +6,18 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 
 call plug#begin('~/.vim/plugged')
+Plug 'mindriot101/vim-yapf'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'rust-lang/rust.vim'
-Plug 'racer-rust/vim-racer'
+"Plug 'racer-rust/vim-racer'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'vim-syntastic/syntastic'
+"Plug 'vim-syntastic/syntastic'
 Plug 'python-mode/python-mode', { 'branch': 'develop' }
+Plug 'peterhoeg/vim-qml'
 call plug#end()
+
+let mapleader = "<"
 
 "airline
 let g:airline_powerline_fonts = 1
@@ -27,6 +31,7 @@ au FileType rust nmap gd <Plug>(rust-def)
 au FileType rust nmap gs <Plug>(rust-def-split)
 au FileType rust nmap gx <Plug>(rust-def-vertical)
 au FileType rust nmap <leader>gd <Plug>(rust-doc)
+au FileType rust nmap <leader>f :RustFmt<CR>
 
 "syntastic
 set statusline+=%#warningmsg#
@@ -52,11 +57,13 @@ function! s:ZoomToggle() abort
     endif
 endfunction
 command! ZoomToggle call s:ZoomToggle()
-nnoremap <silent> <C-A> :ZoomToggle<CR>
+nnoremap <silent> <leader>z :ZoomToggle<CR>
 
 "pymode
 let g:pymode_python = 'python3'
 let g:pymode=1
+let g:pymode_options_colorcolumn = 0
+"let g:pymode_indent = 1
 
 "general
 syntax on
@@ -79,10 +86,15 @@ set shiftwidth=4
 set expandtab
 set bg=dark
 set number relativenumber
-set nohlsearch
-
+set noincsearch
+set smarttab
+" Displays '-' for trailing space, '>-' for tabs and '_' for non breakable
+" space
+"set listchars=tab:>-,trail:-,nbsp:_
+"set list
 "set cursorline
 "hi CursorLine cterm=bold ctermbg=233
 
 nnoremap <F3> :set hlsearch!<CR>
 nnoremap <F4> :set relativenumber! number!<CR>
+nnoremap <leader>f :call Yapf()<CR>
