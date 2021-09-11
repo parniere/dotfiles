@@ -15,9 +15,17 @@ Plug 'vim-airline/vim-airline-themes'
 "Plug 'vim-syntastic/syntastic'
 Plug 'python-mode/python-mode', { 'branch': 'develop' }
 Plug 'peterhoeg/vim-qml'
+
+" Language Server Protocol Client
+Plug 'dense-analysis/ale'
 call plug#end()
 
 let mapleader = "<"
+
+" ALE
+let g:ale_completion_enabled = 1
+nmap <leader>g :ALEGoToDefinition<CR>
+
 
 "airline
 let g:airline_powerline_fonts = 1
