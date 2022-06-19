@@ -7,14 +7,13 @@ endif
 
 call plug#begin('~/.vim/plugged')
 Plug 'mindriot101/vim-yapf'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'rust-lang/rust.vim'
-"Plug 'racer-rust/vim-racer'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-"Plug 'vim-syntastic/syntastic'
 Plug 'python-mode/python-mode', { 'branch': 'develop' }
 Plug 'peterhoeg/vim-qml'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 call plug#end()
 
 let mapleader = "<"
@@ -97,4 +96,5 @@ set smarttab
 
 nnoremap <F3> :set hlsearch!<CR>
 nnoremap <F4> :set relativenumber! number!<CR>
-nnoremap <leader>f :call Yapf()<CR>
+"nnoremap <leader>f :call Yapf()<CR>
+nnoremap <leader>f :Files<CR>
