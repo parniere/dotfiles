@@ -8,3 +8,6 @@ font:
     family: Fira Mono
   italic:
     family: Fira Mono
+
+key_bindings:
+  - { key: F11, action: ToggleFullscreen }
