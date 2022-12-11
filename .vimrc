@@ -6,6 +6,7 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 
 call plug#begin('~/.vim/plugged')
+Plug 'arcticicestudio/nord-vim' 
 Plug 'mindriot101/vim-yapf'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -21,26 +22,6 @@ let mapleader = "<"
 "airline
 let g:airline_powerline_fonts = 1
 let g:airline_theme='distinguished'
-
-"vim racer Cx Co to autocomplete
-set hidden
-let g:racer_cmd = "~/.cargo/bin/racer"
-let g:racer_experimental_completer = 1
-au FileType rust nmap gd <Plug>(rust-def)
-au FileType rust nmap gs <Plug>(rust-def-split)
-au FileType rust nmap gx <Plug>(rust-def-vertical)
-au FileType rust nmap <leader>gd <Plug>(rust-doc)
-au FileType rust nmap <leader>f :RustFmt<CR>
-
-"syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
 
 "Zoom
 " Zoom / Restore window.
@@ -58,11 +39,24 @@ endfunction
 command! ZoomToggle call s:ZoomToggle()
 nnoremap <silent> <leader>z :ZoomToggle<CR>
 
+colo nord
+syntax on
+
 "pymode
 let g:pymode_python = 'python3'
 let g:pymode=1
 let g:pymode_options_colorcolumn = 0
 "let g:pymode_indent = 1
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+" Symbol renaming.
+nmap <leader>rn <Plug>(coc-rename)
+
+
 
 "general
 syntax on
@@ -97,4 +91,6 @@ set smarttab
 nnoremap <F3> :set hlsearch!<CR>
 nnoremap <F4> :set relativenumber! number!<CR>
 "nnoremap <leader>f :call Yapf()<CR>
-nnoremap <leader>f :Files<CR>
+nnoremap <leader>f :GFiles<CR>
+nnoremap <leader>b :Buffers<CR>
+nnoremap <leader>d :GFiles?<CR>
