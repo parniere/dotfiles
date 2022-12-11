@@ -17,6 +17,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'vim-autoformat/vim-autoformat'
+Plug 'airblade/vim-gitgutter'
 call plug#end()
 
 " 24 bits colors in tmux
@@ -35,6 +36,14 @@ inoremap <silent><expr> <cr> coc#pum#visible() ? coc#_select_confirm() : "\<C-g>
 
 "autoformat
 au BufWrite * :Autoformat
+
+"add sign column for vim gitgutter
+set signcolumn=yes
+let g:gitgutter_sign_added = '+'
+let g:gitgutter_sign_modified = '>'
+let g:gitgutter_sign_removed = '-'
+let g:gitgutter_sign_removed_first_line = '^'
+let g:gitgutter_sign_modified_removed = '<'
 
 "Zoom
 " Zoom / Restore window.
