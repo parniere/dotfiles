@@ -1,0 +1,10 @@
+# Font configuration
+font:
+  size: 10.0
+  normal:
+    family: Fira Mono
+    style: Light
+  bold:
+    family: Fira Mono
+  italic:
+    family: Fira Mono

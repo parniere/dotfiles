@@ -1,12 +1,12 @@
 "plugins
 if empty(glob('~/.vim/autoload/plug.vim'))
-	silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-	      \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-	autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
 call plug#begin('~/.vim/plugged')
-Plug 'arcticicestudio/nord-vim' 
+Plug 'arcticicestudio/nord-vim'
 Plug 'mindriot101/vim-yapf'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -15,13 +15,23 @@ Plug 'peterhoeg/vim-qml'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'vim-autoformat/vim-autoformat'
 call plug#end()
+
+" 24 bits colors in tmux
+set termguicolors
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+
 
 let mapleader = "<"
 
 "airline
 let g:airline_powerline_fonts = 1
 let g:airline_theme='distinguished'
+
+"autoformat
+au BufWrite * :Autoformat
 
 "Zoom
 " Zoom / Restore window.
@@ -39,7 +49,7 @@ endfunction
 command! ZoomToggle call s:ZoomToggle()
 nnoremap <silent> <leader>z :ZoomToggle<CR>
 
-colo nord
+colorscheme nord
 syntax on
 
 "pymode
