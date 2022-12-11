@@ -34,7 +34,7 @@ let g:airline_theme='nord'
 inoremap <silent><expr> <cr> coc#pum#visible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
 
 "autoformat
-au BufWrite * :Autoformat
+autocmd BufWritePre *.rs :Autoformat
 
 "add sign column for vim gitgutter
 set signcolumn=yes
