@@ -6,8 +6,7 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 
 call plug#begin('~/.vim/plugged')
-"Plug 'arcticicestudio/nord-vim'
-Plug 'casonadams/nord.vim'
+Plug 'jasonlong/nord-vim'
 Plug 'mindriot101/vim-yapf'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -78,8 +77,6 @@ nmap <silent> gr <Plug>(coc-references)
 " Symbol renaming.
 nmap <leader>rn <Plug>(coc-rename)
 
-
-
 "general
 syntax on
 filetype indent on
@@ -102,6 +99,7 @@ set expandtab
 set bg=dark
 set number relativenumber
 set noincsearch
+
 set smarttab
 " Displays '-' for trailing space, '>-' for tabs and '_' for non breakable
 " space
@@ -111,8 +109,19 @@ set smarttab
 "hi CursorLine cterm=bold ctermbg=233
 
 nnoremap <F3> :set hlsearch!<CR>
-nnoremap <F4> :set relativenumber! number!<CR>
-"nnoremap <leader>f :call Yapf()<CR>
+
+function! ToggleSignColumn()
+    if !exists("b:signcolumn_on") || b:signcolumn_on
+        set signcolumn=no
+        let b:signcolumn_on=0
+    else
+        set signcolumn=yes
+        let b:signcolumn_on=1
+    endif
+endfunction
+
+nnoremap <F4> :set relativenumber! number!<CR>:call ToggleSignColumn()<CR>
+
 nnoremap <leader>f :GFiles<CR>
 nnoremap <leader>b :Buffers<CR>
 nnoremap <leader>d :GFiles?<CR>
