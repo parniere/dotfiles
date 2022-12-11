@@ -31,7 +31,10 @@ let g:airline_powerline_fonts = 1
 let g:airline_theme='nord'
 
 "autocompletion return instead of ctrl + y
-inoremap <silent><expr> <cr> coc#pum#visible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
+"coc autocompletion
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
+"normal vim autocompletion
+inoremap <silent><expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
 
 "autoformat
 autocmd BufWritePre *.rs :Autoformat
