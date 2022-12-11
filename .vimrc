@@ -6,7 +6,8 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 
 call plug#begin('~/.vim/plugged')
-Plug 'arcticicestudio/nord-vim'
+"Plug 'arcticicestudio/nord-vim'
+Plug 'casonadams/nord.vim'
 Plug 'mindriot101/vim-yapf'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -23,12 +24,14 @@ set termguicolors
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 
-
 let mapleader = "<"
 
 "airline
 let g:airline_powerline_fonts = 1
-let g:airline_theme='distinguished'
+let g:airline_theme='nord'
+
+"autocompletion return instead of ctrl + y
+inoremap <silent><expr> <cr> coc#pum#visible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
 
 "autoformat
 au BufWrite * :Autoformat
