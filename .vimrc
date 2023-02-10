@@ -79,6 +79,9 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 " Symbol renaming.
 nmap <leader>rn <Plug>(coc-rename)
+" Error nev
+nmap <silent> en <Plug>(coc-diagnostic-prev)
+nmap <silent> ep <Plug>(coc-diagnostic-next)
 
 "general
 syntax on
