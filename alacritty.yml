@@ -1,6 +1,6 @@
 # Font configuration
 font:
-  size: 10.0
+  size: 11.0
   normal:
     family: Fira Mono
     style: Light
