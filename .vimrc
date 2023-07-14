@@ -131,3 +131,5 @@ nnoremap <F4> :set relativenumber! number!<CR>:call ToggleSignColumn()<CR>
 nnoremap <leader>f :GFiles<CR>
 nnoremap <leader>b :Buffers<CR>
 nnoremap <leader>d :GFiles?<CR>
+
+set ttimeoutlen=0
