@@ -10,7 +10,7 @@ Plug 'jasonlong/nord-vim'
 Plug 'mindriot101/vim-yapf'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'python-mode/python-mode', { 'branch': 'develop' }
+"Plug 'python-mode/python-mode', { 'branch': 'develop' }
 Plug 'peterhoeg/vim-qml'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
