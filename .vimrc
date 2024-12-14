@@ -17,6 +17,8 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'vim-autoformat/vim-autoformat'
 Plug 'airblade/vim-gitgutter'
+Plug 'vim-scripts/a.vim'
+Plug 'rhysd/vim-clang-format'
 call plug#end()
 
 " 24 bits colors in tmux
@@ -72,6 +74,7 @@ let g:pymode=1
 let g:pymode_options_colorcolumn = 0
 "let g:pymode_indent = 1
 
+" COC
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
@@ -79,9 +82,11 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 " Symbol renaming.
 nmap <leader>rn <Plug>(coc-rename)
-" Error nev
+" Error nav
 nmap <silent> en <Plug>(coc-diagnostic-prev)
 nmap <silent> ep <Plug>(coc-diagnostic-next)
+nmap <silent> K  :call CocActionAsync('doHover')<CR>
+autocmd CursorHold * silent call CocActionAsync('highlight')
 
 "general
 syntax on
@@ -105,6 +110,7 @@ set expandtab
 set bg=dark
 set number relativenumber
 set noincsearch
+set updatetime=300
 
 set smarttab
 " Displays '-' for trailing space, '>-' for tabs and '_' for non breakable
@@ -132,4 +138,11 @@ nnoremap <leader>f :GFiles<CR>
 nnoremap <leader>b :Buffers<CR>
 nnoremap <leader>d :GFiles?<CR>
 
+" header cc switch
+nnoremap <leader>q :A<CR>
+
 set ttimeoutlen=0
+
+" Clean eof and eol spaces
+autocmd BufWritePre * :%s/\s\+$//e | :silent! %s/\n\+\%$//
+let g:clang_format#auto_format = 1

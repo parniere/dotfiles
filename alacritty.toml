@@ -27,16 +27,19 @@ foreground = "#D8DEE9"
 size = 10.5
 
 [font.bold]
-family = "Fira Code"
+#family = "Fira Code"
+family = "Jetbrains Mono"
 style = "Bold"
 
 [font.italic]
-family = "Fira Code"
+#family = "Fira Code"
+family = "Jetbrains Mono"
 style = "Italic"
 
 [font.normal]
-family = "Fira Code"
-#style = "Light"
+#family = "Fira Code"
+family = "Jetbrains Mono"
+style = "Light"
 
 [[keyboard.bindings]]
 action = "ToggleFullscreen"
