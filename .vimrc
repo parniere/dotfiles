@@ -134,15 +134,21 @@ endfunction
 
 nnoremap <F4> :set relativenumber! number!<CR>:call ToggleSignColumn()<CR>
 
+" FZF vim
 nnoremap <leader>f :GFiles<CR>
 nnoremap <leader>b :Buffers<CR>
 nnoremap <leader>d :GFiles?<CR>
+nnoremap <leader>g :Rg <C-R><C-W><CR>
 
 " header cc switch
 nnoremap <leader>q :A<CR>
 
-set ttimeoutlen=0
+" https://www.johnhawthorn.com/2012/09/vi-escape-delays/
+set ttimeout
+set timeoutlen=1000 ttimeoutlen=0
 
 " Clean eof and eol spaces
 autocmd BufWritePre * :%s/\s\+$//e | :silent! %s/\n\+\%$//
+
+" auto format and save
 let g:clang_format#auto_format = 1
