@@ -59,7 +59,10 @@ require('packer').startup(function()
       command = "Neoformat"
     })
   end
-}
+ }
+ use {
+  "folke/zen-mode.nvim",
+ }
 end)
 
 -- General settings
@@ -223,3 +226,31 @@ require('tidy').setup({
 
 vim.g.neoformat_enabled_c = {'clangformat'}
 vim.g.neoformat_enabled_cpp = {'clangformat'}
+
+
+-- Errors
+vim.diagnostic.config({
+  virtual_text = true , -- Enable inline virtual text diagnostics
+  signs = true, -- Keep signs in the gutter
+  float = {
+    border = "rounded",
+  },
+})
+
+-- Key mappings for diagnostics
+vim.keymap.set('n', '<leader>e', function()
+  vim.diagnostic.open_float(nil, {
+    focusable = false, -- Prevent focus on the floating window
+    border = "rounded", -- Use rounded borders
+    source = "always", -- Always show the source of the diagnostic
+  })
+end, { desc = "Show diagnostics in a floating window" })
+
+-- Zen Mode
+require("zen-mode").setup {
+  window = {
+    width = 0.4,  -- Adjust the width to your preference
+    options = {}
+  }
+}
+vim.api.nvim_set_keymap('n', '<F12>', ":lua require('zen-mode').toggle()<CR>", { noremap = true, silent = true })
