@@ -13,7 +13,7 @@ if fn.empty(fn.glob(install_path)) > 0 then
 	vim.cmd([[packadd packer.nvim]])
 end
 
--- Autocommand to auto-reload and install/update plugins when saving this file
+-- Auto-reload and update plugins when saving this file
 vim.cmd([[
   augroup packer_user_config
     autocmd!
@@ -22,40 +22,52 @@ vim.cmd([[
 ]])
 
 require("packer").startup(function()
+	-- Core plugins
 	use("wbthomason/packer.nvim") -- Package manager
-	use("jasonlong/nord-vim") -- Nord colorscheme
-	use("vim-airline/vim-airline")
-	use("vim-airline/vim-airline-themes")
-	use("airblade/vim-gitgutter")
-	use("rhysd/vim-clang-format")
-	use("neovim/nvim-lspconfig")
-	use("hrsh7th/nvim-cmp")
-	use("hrsh7th/cmp-nvim-lsp")
+
+	-- UI Enhancements
 	use({
-		"windwp/nvim-autopairs",
-	})
-	use({
-		"nvim-treesitter/nvim-treesitter",
-		run = ":TSUpdate",
-	})
-	use({
-		"ibhagwan/fzf-lua",
-		-- optional for icon support
-		-- requires = { "nvim-tree/nvim-web-devicons" }
-		-- or if using mini.icons/mini.nvim
-		-- requires = { "echasnovski/mini.icons" }
-	})
-	-- Trim plugin
-	use({
-		"mcauley-penney/tidy.nvim",
+		"jasonlong/nord-vim", -- Nord colorscheme
 		config = function()
-			require("tidy").setup()
+			vim.cmd("colorscheme nord")
 		end,
 	})
+
 	use({
-		"sbdchd/neoformat",
+		"vim-airline/vim-airline", -- Status line
+		requires = "vim-airline/vim-airline-themes",
 		config = function()
-			-- Enable formatting on save
+			vim.g.airline_powerline_fonts = 1
+			vim.g.airline_theme = "nord"
+		end,
+	})
+
+	use("airblade/vim-gitgutter") -- Git diff indicators
+
+	use({
+		"folke/zen-mode.nvim", -- Distraction-free mode
+		config = function()
+			require("zen-mode").setup({
+				window = {
+					width = 0.4,
+					options = {},
+				},
+			})
+			vim.api.nvim_set_keymap(
+				"n",
+				"<F12>",
+				":lua require('zen-mode').toggle()<CR>",
+				{ noremap = true, silent = true }
+			)
+		end,
+	})
+
+	-- Code Formatting
+	use("rhysd/vim-clang-format") -- C/C++ formatting
+	use({
+		"sbdchd/neoformat", -- General formatting
+		config = function()
+			-- Enable formatting on save for C/C++ files
 			vim.api.nvim_create_autocmd("BufWritePre", {
 				pattern = { "*.c", "*.cc", "*.cpp", "*.h" },
 				command = "Neoformat",
@@ -63,50 +75,111 @@ require("packer").startup(function()
 		end,
 	})
 	use({
-		"folke/zen-mode.nvim",
+		"mcauley-penney/tidy.nvim", -- Trim trailing whitespace
+		config = function()
+			require("tidy").setup({
+				enabled = true,
+				trim_on_save = true,
+				filetype_exclude = { "markdown", "diff" },
+			})
+		end,
+	})
+
+	-- LSP & Autocompletion
+	use("neovim/nvim-lspconfig") -- LSP configuration
+	use("hrsh7th/nvim-cmp") -- Autocompletion
+	use("hrsh7th/cmp-nvim-lsp") -- LSP source for nvim-cmp
+	use("hrsh7th/cmp-buffer") -- Buffer completions
+	use("hrsh7th/cmp-path") -- Path completions
+	use("windwp/nvim-autopairs") -- Auto-pair brackets
+	use({
+		"onsails/lspkind.nvim", -- Icons for completion menu
+		config = function()
+			require("lspkind").init()
+		end,
+	})
+
+	-- Code Analysis
+	use({
+		"nvim-treesitter/nvim-treesitter", -- Syntax parsing
+		run = ":TSUpdate",
+		config = function()
+			require("nvim-treesitter.configs").setup({
+				ensure_installed = "all",
+				highlight = { enable = true },
+			})
+		end,
+	})
+
+	-- Navigation & Search
+	use({
+		"ibhagwan/fzf-lua", -- Fuzzy finder
+		config = function()
+			-- Setup keybindings for fzf-lua
+			vim.api.nvim_set_keymap(
+				"n",
+				"<leader>f",
+				"<cmd>lua require('fzf-lua').git_files()<CR>",
+				{ noremap = true, silent = true }
+			)
+			vim.api.nvim_set_keymap(
+				"n",
+				"<leader>b",
+				"<cmd>lua require('fzf-lua').buffers()<CR>",
+				{ noremap = true, silent = true }
+			)
+			vim.api.nvim_set_keymap(
+				"n",
+				"<leader>d",
+				"<cmd>lua require('fzf-lua').git_status()<CR>",
+				{ noremap = true, silent = true }
+			)
+			vim.api.nvim_set_keymap(
+				"n",
+				"<leader>g",
+				"<cmd>lua require('fzf-lua').grep_cword()<CR>",
+				{ noremap = true, silent = true }
+			)
+		end,
 	})
 end)
 
--- General settings
+-- Editor appearance
 vim.o.termguicolors = true
 vim.o.background = "dark"
-vim.cmd("colorscheme nord")
 vim.o.number = true
 vim.o.relativenumber = true
+vim.o.cursorline = true
+vim.o.signcolumn = "yes"
+
+-- Indentation
 vim.o.smartindent = true
 vim.o.expandtab = true
 vim.o.tabstop = 4
 vim.o.shiftwidth = 4
-vim.o.wrap = false
-vim.o.signcolumn = "yes"
-vim.o.cursorline = true
-vim.o.encoding = "utf-8"
-vim.o.updatetime = 300
 
--- https://www.johnhawthorn.com/2012/09/vi-escape-delays/
+-- Performance
+vim.o.updatetime = 300
+vim.o.encoding = "utf-8"
+
+-- Key input
 vim.opt.timeout = true
 vim.opt.timeoutlen = 1000
 vim.opt.ttimeout = true
 vim.opt.ttimeoutlen = 0
 
+-- Search
 vim.opt.incsearch = false
-
--- Airline
-vim.g.airline_powerline_fonts = 1
-vim.g.airline_theme = "nord"
+vim.o.wrap = false
 
 -- Keybindings
 vim.g.mapleader = "<"
-local map = vim.api.nvim_set_keymap
-map("n", "<F3>", ":set hlsearch!<CR>", { noremap = true, silent = true })
-map("n", "<F4>", ":set relativenumber! number!<CR>", { noremap = true, silent = true })
 
--- CoC (LSP and autocompletion)
---map('n', 'gd', '<Plug>(coc-definition)', {})
---map('n', 'gy', '<Plug>(coc-type-definition)', {})
---map('n', 'gi', '<Plug>(coc-implementation)', {})
---map('n', 'gr', '<Plug>(coc-references)', {})
---map('n', '<leader>rn', '<Plug>(coc-rename)', {})
+-- Toggles
+vim.api.nvim_set_keymap("n", "<F3>", ":set hlsearch!<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<F4>", ":set relativenumber! number!<CR>", { noremap = true, silent = true })
+
+-- FZF
 vim.api.nvim_set_keymap(
 	"n",
 	"<leader>f",
@@ -142,7 +215,33 @@ require("nvim-treesitter.configs").setup({
 	},
 })
 
-require("lspconfig").clangd.setup({
+-- LSP Configuration
+local lspconfig = require("lspconfig")
+local lsp_defaults = lspconfig.util.default_config
+
+-- Enhanced capabilities with nvim-cmp
+lsp_defaults.capabilities =
+	vim.tbl_deep_extend("force", lsp_defaults.capabilities, require("cmp_nvim_lsp").default_capabilities())
+
+-- Common LSP settings
+local on_attach = function(client, bufnr)
+	-- Enable completion triggered by <c-x><c-o>
+	vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+
+	-- Mappings
+	local opts = { buffer = bufnr, noremap = true, silent = true }
+	vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+	vim.keymap.set("n", "gy", vim.lsp.buf.type_definition, opts)
+	vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+	vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+	vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+	vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+	vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+	vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, opts)
+end
+
+-- Clangd
+lspconfig.clangd.setup({
 	cmd = {
 		"clangd",
 		"--compile-commands-dir=build/debug",
@@ -150,39 +249,52 @@ require("lspconfig").clangd.setup({
 		"--background-index",
 		"--malloc-trim",
 	},
+	on_attach = on_attach,
 })
 
--- Add cmp_nvim_lsp capabilities settings to lspconfig
--- This should be executed before you configure any language server
-local lspconfig_defaults = require("lspconfig").util.default_config
-lspconfig_defaults.capabilities =
-	vim.tbl_deep_extend("force", lspconfig_defaults.capabilities, require("cmp_nvim_lsp").default_capabilities())
-
+-- Autocompletion Setup
 local cmp = require("cmp")
 cmp.setup({
-	sources = {
-		{ name = "nvim_lsp" },
-	},
 	snippet = {
 		expand = function(args)
-			-- You need Neovim v0.10 to use vim.snippet
 			vim.snippet.expand(args.body)
 		end,
 	},
-	window = {
-		-- completion = cmp.config.window.bordered(),
-		-- documentation = cmp.config.window.bordered(),
-	},
 	mapping = {
-		-- Navigate the suggestion list with arrow keys
-		["<Down>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
-		["<Up>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
-
-		-- Confirm completion with Enter
+		["<C-b>"] = cmp.mapping.scroll_docs(-4),
+		["<C-f>"] = cmp.mapping.scroll_docs(4),
+		["<C-Space>"] = cmp.mapping.complete(),
+		["<C-e>"] = cmp.mapping.abort(),
 		["<CR>"] = cmp.mapping.confirm({ select = true }),
-
-		-- Close the completion menu
-		["<C-e>"] = cmp.mapping.close(),
+		["<Tab>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
+		["<S-Tab>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
+	},
+	sources = cmp.config.sources({
+		{ name = "nvim_lsp" },
+		{ name = "buffer" },
+		{ name = "path" },
+	}),
+	formatting = {
+		format = function(entry, vim_item)
+			-- Try to load lspkind if available
+			local ok, lspkind = pcall(require, "lspkind")
+			if ok then
+				return lspkind.cmp_format({
+					mode = "symbol_text",
+					maxwidth = 50,
+					ellipsis_char = "...",
+				})(entry, vim_item)
+			end
+			-- Fallback if lspkind not available
+			return vim_item
+		end,
+	},
+	window = {
+		completion = cmp.config.window.bordered(),
+		documentation = cmp.config.window.bordered(),
+	},
+	experimental = {
+		ghost_text = true,
 	},
 })
 
@@ -240,23 +352,40 @@ require("tidy").setup({
 vim.g.neoformat_enabled_c = { "clangformat" }
 vim.g.neoformat_enabled_cpp = { "clangformat" }
 
--- Errors
+-- Diagnostics Configuration
 vim.diagnostic.config({
-	virtual_text = true, -- Enable inline virtual text diagnostics
-	signs = true, -- Keep signs in the gutter
+	virtual_text = {
+		prefix = "●", -- Change the diagnostic symbol
+		spacing = 4,
+	},
+	signs = true,
+	underline = true,
+	update_in_insert = false,
+	severity_sort = true,
 	float = {
 		border = "rounded",
+		source = "always",
+		header = "",
+		prefix = "",
 	},
 })
 
--- Key mappings for diagnostics
-vim.keymap.set("n", "<leader>e", function()
-	vim.diagnostic.open_float(nil, {
-		focusable = false, -- Prevent focus on the floating window
-		border = "rounded", -- Use rounded borders
-		source = "always", -- Always show the source of the diagnostic
-	})
-end, { desc = "Show diagnostics in a floating window" })
+-- Diagnostic Keymaps
+local diagnostic_goto = function(next, severity)
+	local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
+	severity = severity and vim.diagnostic.severity[severity] or nil
+	return function()
+		go({ severity = severity })
+	end
+end
+
+vim.keymap.set("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line diagnostics" })
+vim.keymap.set("n", "]d", diagnostic_goto(true), { desc = "Next diagnostic" })
+vim.keymap.set("n", "[d", diagnostic_goto(false), { desc = "Prev diagnostic" })
+vim.keymap.set("n", "]e", diagnostic_goto(true, "ERROR"), { desc = "Next error" })
+vim.keymap.set("n", "[e", diagnostic_goto(false, "ERROR"), { desc = "Prev error" })
+vim.keymap.set("n", "]w", diagnostic_goto(true, "WARN"), { desc = "Next warning" })
+vim.keymap.set("n", "[w", diagnostic_goto(false, "WARN"), { desc = "Prev warning" })
 
 -- Zen Mode
 require("zen-mode").setup({
