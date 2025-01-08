@@ -13,11 +13,11 @@ if fn.empty(fn.glob(install_path)) > 0 then
 	vim.cmd([[packadd packer.nvim]])
 end
 
--- Auto-reload and update plugins when saving this file
+-- Auto-reload
 vim.cmd([[
   augroup packer_user_config
     autocmd!
-    autocmd BufWritePost init.lua source <afile> | PackerSync
+    autocmd BufWritePost init.lua source <afile>
   augroup end
 ]])
 
