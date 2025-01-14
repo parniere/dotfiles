@@ -181,6 +181,8 @@ vim.o.wrap = false
 -- Keybindings
 vim.g.mapleader = "<"
 
+vim.opt.mouse = ""
+
 -- Toggles
 vim.api.nvim_set_keymap("n", "<F3>", ":set hlsearch!<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<F4>", ":set relativenumber! number!<CR>", { noremap = true, silent = true })
