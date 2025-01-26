@@ -63,13 +63,12 @@ require("packer").startup(function()
 	})
 
 	-- Code Formatting
-	use("rhysd/vim-clang-format") -- C/C++ formatting
 	use({
 		"sbdchd/neoformat", -- General formatting
 		config = function()
 			-- Enable formatting on save for C/C++ files
 			vim.api.nvim_create_autocmd("BufWritePre", {
-				pattern = { "*.c", "*.cc", "*.cpp", "*.h" },
+				pattern = { "*.c", "*.cc", "*.cpp", "*.h", "*.hpp" },
 				command = "Neoformat",
 			})
 		end,
@@ -105,7 +104,8 @@ require("packer").startup(function()
 		run = ":TSUpdate",
 		config = function()
 			require("nvim-treesitter.configs").setup({
-				ensure_installed = "all",
+				ensure_installed = {"c", "cpp", "lua", "python"},
+                ignore_install = {"all"},
 				highlight = { enable = true },
 			})
 		end,
@@ -214,14 +214,6 @@ vim.api.nvim_set_keymap(
 	"<cmd>lua require('fzf-lua').grep_cword()<CR>",
 	{ noremap = true, silent = true }
 )
-
--- Treesitter
-require("nvim-treesitter.configs").setup({
-	ensure_installed = "all",
-	highlight = {
-		enable = true,
-	},
-})
 
 -- LSP Configuration
 local lspconfig = require("lspconfig")
