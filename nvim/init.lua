@@ -104,8 +104,8 @@ require("packer").startup(function()
 		run = ":TSUpdate",
 		config = function()
 			require("nvim-treesitter.configs").setup({
-				ensure_installed = {"c", "cpp", "lua", "python"},
-                ignore_install = {"all"},
+				ensure_installed = { "c", "cpp", "lua", "python" },
+				ignore_install = { "all" },
 				highlight = { enable = true },
 			})
 		end,
@@ -150,6 +150,12 @@ require("packer").startup(function()
 	})
 end)
 
+require("fzf-lua").setup({
+	fzf_opts = {
+		["--layout"] = false,
+	},
+})
+
 -- Editor appearance
 vim.o.termguicolors = true
 vim.o.background = "dark"
@@ -186,34 +192,6 @@ vim.opt.mouse = ""
 -- Toggles
 vim.api.nvim_set_keymap("n", "<F3>", ":set hlsearch!<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<F4>", ":set relativenumber! number!<CR>", { noremap = true, silent = true })
-
--- FZF
-vim.api.nvim_set_keymap(
-	"n",
-	"<leader>f",
-	"<cmd>lua require('fzf-lua').git_files()<CR>",
-	{ noremap = true, silent = true }
-)
-vim.api.nvim_set_keymap(
-	"n",
-	"<leader>b",
-	"<cmd>lua require('fzf-lua').buffers()<CR>",
-	{ noremap = true, silent = true }
-)
--- Map <leader>d to search for modified files in Git
-vim.api.nvim_set_keymap(
-	"n",
-	"<leader>d",
-	"<cmd>lua require('fzf-lua').git_status()<CR>",
-	{ noremap = true, silent = true }
-)
--- Map <leader>g to search for the word under the cursor using Ripgrep
-vim.api.nvim_set_keymap(
-	"n",
-	"<leader>g",
-	"<cmd>lua require('fzf-lua').grep_cword()<CR>",
-	{ noremap = true, silent = true }
-)
 
 -- LSP Configuration
 local lspconfig = require("lspconfig")
