@@ -104,7 +104,7 @@ require("packer").startup(function()
 		run = ":TSUpdate",
 		config = function()
 			require("nvim-treesitter.configs").setup({
-				ensure_installed = { "c", "cpp", "lua", "python" },
+				ensure_installed = { "c", "cpp", "lua", "python", "cmake" },
 				ignore_install = { "all" },
 				highlight = { enable = true },
 			})
