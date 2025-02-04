@@ -322,15 +322,6 @@ end
 -- Map a key to switch files
 vim.api.nvim_set_keymap("n", "<leader>q", "<cmd>lua switch_alternate_file()<CR>", opts)
 
-require("tidy").setup({
-	-- Enable or disable the plugin
-	enabled = true,
-	-- Enable or disable trimming on save
-	trim_on_save = true,
-	-- Filetypes to exclude from trimming
-	filetype_exclude = { "markdown", "diff" },
-})
-
 vim.g.neoformat_enabled_c = { "clangformat" }
 vim.g.neoformat_enabled_cpp = { "clangformat" }
 
