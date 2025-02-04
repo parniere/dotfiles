@@ -300,8 +300,13 @@ function switch_alternate_file()
 
 	if ext == "cc" then
 		alternate = file:gsub("%.cc$", ".h")
+	elseif ext == "hpp" then
+		alternate = file:gsub("%.hpp$", ".h")
 	elseif ext == "h" then
 		alternate = file:gsub("%.h$", ".cc")
+		if vim.fn.filereadable(alternate) ~= 1 then
+			alternate = file:gsub("%.h$", ".hpp")
+		end
 	else
 		print("No alternate file mapping for this filetype")
 		return
