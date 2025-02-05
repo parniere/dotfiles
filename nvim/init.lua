@@ -146,6 +146,12 @@ require("packer").startup(function()
 				"<cmd>lua require('fzf-lua').live_grep_native()<CR>",
 				{ noremap = true, silent = true }
 			)
+			vim.api.nvim_set_keymap(
+				"n",
+				"<leader>c",
+				"<cmd>lua require('fzf-lua').blines()<CR>",
+				{ noremap = true, silent = true }
+			)
 		end,
 	})
 end)
