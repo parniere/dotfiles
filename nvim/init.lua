@@ -115,80 +115,50 @@ require("packer").startup(function()
 	use({
 		"ibhagwan/fzf-lua", -- Fuzzy finder
 		config = function()
+			require("fzf-lua").setup({
+				fzf_opts = { ["--layout"] = false },
+			})
+			-- Helper for setting keymaps
+			local map = function(keys, func, desc)
+				vim.keymap.set("n", keys, func, { noremap = true, silent = true, desc = "FZF: " .. desc })
+			end
 			-- Setup keybindings for fzf-lua
-			vim.api.nvim_set_keymap(
-				"n",
-				"<leader>f",
-				"<cmd>lua require('fzf-lua').git_files()<CR>",
-				{ noremap = true, silent = true }
-			)
-			vim.api.nvim_set_keymap(
-				"n",
-				"<leader>b",
-				"<cmd>lua require('fzf-lua').buffers()<CR>",
-				{ noremap = true, silent = true }
-			)
-			vim.api.nvim_set_keymap(
-				"n",
-				"<leader>d",
-				"<cmd>lua require('fzf-lua').git_status()<CR>",
-				{ noremap = true, silent = true }
-			)
-			vim.api.nvim_set_keymap(
-				"n",
-				"<leader>g",
-				"<cmd>lua require('fzf-lua').grep_cword()<CR>",
-				{ noremap = true, silent = true }
-			)
-			vim.api.nvim_set_keymap(
-				"n",
-				"<leader>v",
-				"<cmd>lua require('fzf-lua').live_grep_native()<CR>",
-				{ noremap = true, silent = true }
-			)
-			vim.api.nvim_set_keymap(
-				"n",
-				"<leader>c",
-				"<cmd>lua require('fzf-lua').blines()<CR>",
-				{ noremap = true, silent = true }
-			)
+			map("<leader>f", "<cmd>lua require('fzf-lua').git_files()<CR>", "Find Git Files")
+			map("<leader>b", "<cmd>lua require('fzf-lua').buffers()<CR>", "Find Buffers")
+			map("<leader>d", "<cmd>lua require('fzf-lua').git_status()<CR>", "Git Status")
+			map("<leader>g", "<cmd>lua require('fzf-lua').grep_cword()<CR>", "Grep for word under cursor")
+			map("<leader>v", "<cmd>lua require('fzf-lua').live_grep_native()<CR>", "Live Grep")
+			map("<leader>c", "<cmd>lua require('fzf-lua').blines()<CR>", "Find in current buffer lines")
 		end,
 	})
 end)
 
-require("fzf-lua").setup({
-	fzf_opts = {
-		["--layout"] = false,
-	},
-})
-
 -- Editor appearance
-vim.o.termguicolors = true
-vim.o.background = "dark"
-vim.o.number = true
-vim.o.relativenumber = true
-vim.o.cursorline = true
-vim.o.signcolumn = "yes"
+vim.opt.termguicolors = true
+vim.opt.background = "dark"
+vim.opt.number = true
+vim.opt.relativenumber = true
+vim.opt.cursorline = true
+vim.opt.signcolumn = "yes"
 
 -- Indentation
-vim.o.smartindent = true
-vim.o.expandtab = true
-vim.o.tabstop = 4
-vim.o.shiftwidth = 4
+vim.opt.smartindent = true
+vim.opt.expandtab = true
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
 
 -- Performance
-vim.o.updatetime = 300
-vim.o.encoding = "utf-8"
+vim.opt.updatetime = 300
+vim.opt.encoding = "utf-8"
 
 -- Key input
 vim.opt.timeout = true
 vim.opt.timeoutlen = 1000
 vim.opt.ttimeout = true
 vim.opt.ttimeoutlen = 0
-
 -- Search
 vim.opt.incsearch = false
-vim.o.wrap = false
+vim.opt.wrap = false
 
 -- Keybindings
 vim.g.mapleader = "<"
@@ -196,8 +166,8 @@ vim.g.mapleader = "<"
 vim.opt.mouse = ""
 
 -- Toggles
-vim.api.nvim_set_keymap("n", "<F3>", ":set hlsearch!<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<F4>", ":set relativenumber! number!<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<F3>", ":set hlsearch!<CR>", { noremap = true, silent = true, desc = "Toggle search highlight" })
+vim.keymap.set("n", "<F4>", ":set relativenumber! number!<CR>", { noremap = true, silent = true, desc = "Toggle relative numbers" })
 
 -- LSP Configuration
 local lspconfig = require("lspconfig")
@@ -221,6 +191,8 @@ local on_attach = function(client, bufnr)
 	vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
 	vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
 	vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+	vim.keymap.set("n", "en", vim.diagnostic.goto_prev, { desc = "Previous diagnostic" })
+	vim.keymap.set("n", "ep", vim.diagnostic.goto_next, { desc = "Next diagnostic" })
 end
 
 -- Clangd
@@ -287,18 +259,6 @@ local cmp_autopairs = require("nvim-autopairs.completion.cmp")
 local cmp = require("cmp")
 cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 
-local opts = { noremap = true, silent = true }
-vim.api.nvim_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
-vim.api.nvim_set_keymap("n", "gy", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
-vim.api.nvim_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
-vim.api.nvim_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
-vim.api.nvim_set_keymap("n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-vim.api.nvim_set_keymap("n", "en", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
-vim.api.nvim_set_keymap("n", "ep", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
-
--- doc
-vim.api.nvim_set_keymap("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
-
 function switch_alternate_file()
 	local file = vim.fn.expand("%:p")
 	local ext = vim.fn.expand("%:e")
@@ -326,7 +286,11 @@ function switch_alternate_file()
 end
 
 -- Map a key to switch files
-vim.api.nvim_set_keymap("n", "<leader>q", "<cmd>lua switch_alternate_file()<CR>", opts)
+vim.keymap.set("n", "<leader>q", "<cmd>lua switch_alternate_file()<CR>", {
+	noremap = true,
+	silent = true,
+	desc = "Switch to alternate file (.h/.cc)",
+})
 
 vim.g.neoformat_enabled_c = { "clangformat" }
 vim.g.neoformat_enabled_cpp = { "clangformat" }
@@ -365,12 +329,3 @@ vim.keymap.set("n", "]e", diagnostic_goto(true, "ERROR"), { desc = "Next error" 
 vim.keymap.set("n", "[e", diagnostic_goto(false, "ERROR"), { desc = "Prev error" })
 vim.keymap.set("n", "]w", diagnostic_goto(true, "WARN"), { desc = "Next warning" })
 vim.keymap.set("n", "[w", diagnostic_goto(false, "WARN"), { desc = "Prev warning" })
-
--- Zen Mode
-require("zen-mode").setup({
-	window = {
-		width = 0.4, -- Adjust the width to your preference
-		options = {},
-	},
-})
-vim.api.nvim_set_keymap("n", "<F12>", ":lua require('zen-mode').toggle()<CR>", { noremap = true, silent = true })
