@@ -13,6 +13,8 @@ if fn.empty(fn.glob(install_path)) > 0 then
 	vim.cmd([[packadd packer.nvim]])
 end
 
+vim.deprecate = function() end
+
 -- Auto-reload
 vim.cmd([[
   augroup packer_user_config
