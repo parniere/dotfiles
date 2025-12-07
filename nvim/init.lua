@@ -106,7 +106,7 @@ require("packer").startup(function()
 		run = ":TSUpdate",
 		config = function()
 			require("nvim-treesitter.configs").setup({
-				ensure_installed = { "c", "cpp", "lua", "python", "cmake" },
+				ensure_installed = { "c", "cpp", "lua", "python", "cmake", "terraform", "hcl" },
 				ignore_install = { "all" },
 				highlight = { enable = true },
 			})
